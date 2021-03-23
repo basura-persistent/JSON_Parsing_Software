@@ -1,7 +1,9 @@
 #include <iostream>
 #include <stdio.h>
 #include <ctype.h>
+#include <string>
 #include "JSONTokenizer.hpp"
+#include "JSONToken.hpp"
 #include <string>
 using namespace std;
 
@@ -30,6 +32,7 @@ string JSONTokenizer::KeyParser(){
         if(isalpha(c1)){
             key = key + string(1, c1);
             if(char(inputstream.peek()) == '"'){
+                inputstream.get(c1);
                 return key;
             }
         }
@@ -37,21 +40,30 @@ string JSONTokenizer::KeyParser(){
     return key;
 }
 
-string JSONTokenizer::ValueParser(){
+JSONToken JSONTokenizer::ValueParser(JSONToken &token){
     char c2;
     string value;
     while(inputstream.get(c2)){
-        if(isalnum(c2)|| char(c2) == '.'){
+        if(isalnum(c2)|| char(c2) == '.'){//may need to check for open and close quote string here 
             value = value + c2;
-            if(char(inputstream.peek() == '"')){//checking for string value
-                return value;
+            if(char(inputstream.peek()) == '"'){//checking for string value
+                inputstream.get(c2);
+                token.isStringValue() = true;
+                token.makeValue(value);
+                return token;
             }
             else if(char(inputstream.peek()) == ','){//checking for integer value 
-                return value;
+                token.isDigitValue() = true;
+                // string str = "123.4567";
+    // double num_double = std::stod(str);
+    // cout<<num_double;
+                double num_double = stod(value);
+                token.makeValue(num_double);
+                return token;
             }
         }
     }
-    return value;
+    return token;
 }
 
 
@@ -75,6 +87,7 @@ JSONToken JSONTokenizer::getToken(){
 
 
     JSONToken jsonToken;
+    // cout<<"found this c    "<<c<<endl;
     if(inputstream.eof()){
         jsonToken.endOfFile() = true;
     }
@@ -106,9 +119,8 @@ JSONToken JSONTokenizer::getToken(){
         jsonToken.makeKey(parsed_key);
     }
     else if(c== ':'){
-        jsonToken.isValue() = true;
-        string parsed_value = ValueParser();
-        jsonToken.makeValue(parsed_value);
+        jsonToken = ValueParser(jsonToken);
+
     }
 
     

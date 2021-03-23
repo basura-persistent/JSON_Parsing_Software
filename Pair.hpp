@@ -11,7 +11,7 @@ public:
     // and use the second one if it is a double value.
     Pair(string attributeName, string attributeValue);
     Pair(string attributeName, double attributeValueInt);
-    bool isDouble();
+    bool &isDouble();
     double numberValue();
     string stringValue();
     string attributeName();

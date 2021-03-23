@@ -9,9 +9,10 @@
 
 using namespace std;
 
-Pair::Pair(string attributeName, string attributeValue){
+Pair::Pair(string attributeName, string attributeValue): _attributeName{""}, _attributeStringValue{""}{
     _attributeName = attributeName;
     _attributeStringValue =  attributeValue;
+    cout<<"constructing this string value"<<_attributeStringValue<<endl;
 }
 
 Pair::Pair(string attributeName, double attributeValueInt): _attributeNumberValue{0},
@@ -22,10 +23,7 @@ Pair::Pair(string attributeName, double attributeValueInt): _attributeNumberValu
     _attributeNumberValue = attributeValueInt;
 }
 
-bool Pair::isDouble(){
-    if(isdigit(_attributeNumberValue)){
-        return _isNumber = true;
-    }
+bool &Pair::isDouble(){
     return _isNumber;
 }
 
@@ -43,14 +41,24 @@ string Pair::attributeName(){
 
 void Pair::print(int numOfSpace, bool addComa){
     cout<<attributeName()<<":";
-    if(isDouble()){
-        cout<<numberValue();
-    }
-    else{
-        cout<<"\""<<stringValue()<<"\"";
-    }
+    // if(isDouble()){
+        // if(numberValue() == 0){
+          if(!_isNumber){
+            cout<<_attributeStringValue;
+              
+          }
+          else{ 
+              cout<<_attributeNumberValue;
+          }
+        // }
+        cout<<endl;
+    // }
+    // else{
+    //     cout<<"\""<<stringValue()<<"\"";
+    // }
 
-    if(addComa){
-        cout<<",";
-    }
+    // if(addComa){
+    //     cout<<",";
+    // }
+    // cout<<endl;
 }

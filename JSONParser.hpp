@@ -4,6 +4,7 @@
 #include "Pair.hpp"
 #include "EntityInstance.hpp"
 #include "JSONTokenizer.hpp"
+#include "JSONToken.hpp"
 #include <string>
 
 class JSONParser {
@@ -11,8 +12,10 @@ class JSONParser {
         JSONParser(string InputFilename);
         bool ValidateOpenBrace();
         bool ValidateCloseBrace();
+        bool ValidateEndOfFile();
         Pair parseAPair();
         EntityInstance parseJSONObject();
+        void TokenPrint();
         // Entity parseJSONEntity();
 
     private:

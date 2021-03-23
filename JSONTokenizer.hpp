@@ -19,7 +19,7 @@ class JSONTokenizer {
         ifstream inputstream;
         bool charOfInterest(char c);
         string KeyParser();
-        string ValueParser();
+        JSONToken ValueParser(JSONToken &token);
         
 };
 

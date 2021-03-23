@@ -26,7 +26,8 @@ bool &JSONToken::isColon(){return _isColon;}
 bool &JSONToken::isComa(){return _isComa;}
 
 string JSONToken::getKey(){return _key;}
-string JSONToken::getStringValue(){return _StringValue;}
+string JSONToken::getStringValue(){return _stringValue;}
+double JSONToken::getDigitValue(){return _digitValue;}
 
 bool &JSONToken::isKey(){return _isKey;}
 bool &JSONToken::isStringValue(){return _isStringValue;}
@@ -36,7 +37,11 @@ void JSONToken::makeKey(string key){
 }
 
 void JSONToken::makeValue(string value){
-    _value = value;
+    _stringValue = value;
+}
+
+void JSONToken::makeValue(double value){
+    _digitValue = value;
 }
 
 void JSONToken::print(){
@@ -67,7 +72,7 @@ void JSONToken::print(){
     }
     else if(isDigitValue() || isStringValue()){
         cout<<":"<<endl;
-        cout<<_value<<endl;
+        // cout<<_value<<endl;
     }
 }
 

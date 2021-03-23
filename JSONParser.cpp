@@ -71,13 +71,20 @@ Pair JSONParser::parseAPair(){
         cout<<"Terminating"<<endl;
         exit(1);
     }
-    if(token.isDigitValue()){
-        
+    if(!token.isDigitValue()){
+        string value = token.getStringValue();
+        cout<<"this string value"<<value<<endl;
+        Pair pair(key, value);
+        return pair;
     }
-    value = token.getValue();
-    cout<<"placing this value"<<value<<endl;
-    Pair pair(key, value);
-    return pair;
+    else{
+        double value = token.getDigitValue();
+        cout<<"this double value"<<value<<endl;
+        Pair pair(key, value);
+        pair.isDouble() = true;
+        return pair;
+    }
+    // value = token.getValue();
 }
 
 
