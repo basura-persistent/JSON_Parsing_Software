@@ -37,7 +37,10 @@ EntityInstance JSONParser::parseJSONObject(){
      do {
         Pair pair = parseAPair();
          instance.addPair(pair);
+        //  cout<<"pushing back"<<_token.isComa()<<endl;
+        instance.insertComa(_token.isComa());
          _token = _tokenizer.getToken();
+         //instnace print here 
      } while(_token.isComa());
      if( ! _token.isCloseBracket()){//checking close bracket of entity instance 
          cout << "Error: JSONPARSER::parseJSONObject: Expected close brace, but found" << endl;
@@ -53,33 +56,33 @@ Pair JSONParser::parseAPair(){
 
     string key;
     string value;
-    JSONToken token = _tokenizer.getToken();
-    if(! token.isKey()){
+    _token = _tokenizer.getToken();
+    if(! _token.isKey()){
         cout<< "Error: JSONPARSER::parseAPair: Expected a key but instead found"<<endl;
-        token.print();
+        _token.print();
         cout<<"Terminating"<<endl;
         exit(1);
     }
-    key = token.getKey();
+    key = _token.getKey();
     // cout<<"found a key"<<key<<endl;
-    token = _tokenizer.getToken();
-    cout<<"Value"<<endl;
-    token.print();
-    if(! token.isDigitValue() && !token.isStringValue()){
+    _token = _tokenizer.getToken();
+    // cout<<"Value"<<endl;
+    // _token.print();
+    if(! _token.isDigitValue() && !_token.isStringValue()){
         cout<< "Error: JSONPARSER::parseAPair: Expected a Value but instead found"<<endl;
-        token.print();
+       _token.print();
         cout<<"Terminating"<<endl;
         exit(1);
     }
-    if(!token.isDigitValue()){
-        string value = token.getStringValue();
-        cout<<"this string value"<<value<<endl;
+    if(!_token.isDigitValue()){
+        string value = _token.getStringValue();
+        // cout<<"this string value"<<value<<endl;
         Pair pair(key, value);
         return pair;
     }
     else{
-        double value = token.getDigitValue();
-        cout<<"this double value"<<value<<endl;
+        double value = _token.getDigitValue();
+        // cout<<"this double value"<<value<<endl;
         Pair pair(key, value);
         pair.isDouble() = true;
         return pair;

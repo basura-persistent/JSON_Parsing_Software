@@ -5,6 +5,7 @@
 #include "iostream"
 #include <string>
 #include <vector>
+#include <queue>
 #include "Pair.hpp"
 
 class EntityInstance {
@@ -12,6 +13,8 @@ class EntityInstance {
         void addPair(Pair &pair);
         int numAttributes();
         vector<string> attributeNames;
+        void insertComa(bool isComa);
+        
 
         void print();
 
@@ -19,7 +22,7 @@ class EntityInstance {
 
     private:
         vector<Pair> entityPairs;
-
+         queue<bool> addComa;
 
 
 

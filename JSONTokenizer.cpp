@@ -48,15 +48,29 @@ JSONToken JSONTokenizer::ValueParser(JSONToken &token){
             value = value + c2;
             if(char(inputstream.peek()) == '"'){//checking for string value
                 inputstream.get(c2);
+                if(char(inputstream.peek()) == ','){
+                    token.isComa() = true;
+                }
                 token.isStringValue() = true;
                 token.makeValue(value);
                 return token;
             }
-            else if(char(inputstream.peek()) == ','){//checking for integer value 
+            else if(isspace(inputstream.peek())){//if next character is space break loop and return current token 
                 token.isDigitValue() = true;
                 // string str = "123.4567";
     // double num_double = std::stod(str);
     // cout<<num_double;
+                double num_double = stod(value);
+                token.makeValue(num_double);
+                return token;
+            }
+            else if(char(inputstream.peek()) == ','){
+                token.isDigitValue() = true;
+                token.isComa() = true;
+                // string str = "123.4567";
+    // double num_double = std::stod(str);
+    // cout<<num_double;
+    //token has coma 
                 double num_double = stod(value);
                 token.makeValue(num_double);
                 return token;

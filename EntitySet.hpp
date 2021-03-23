@@ -1,6 +1,7 @@
 #ifndef ENTITYSET_HPP
 #define ENTITYSET_HPP
 
+#include <queue>
 
 #include "EntityInstance.hpp"
 class EntitySet{
@@ -11,7 +12,7 @@ class EntitySet{
         void print();
 
     private:
-        vector<EntityInstance> instances;
+        queue<EntityInstance> instances;
 };
 
 #endif 

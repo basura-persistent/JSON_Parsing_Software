@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <iomanip>
 
 #include "Pair.hpp"
 
@@ -12,7 +13,7 @@ using namespace std;
 Pair::Pair(string attributeName, string attributeValue): _attributeName{""}, _attributeStringValue{""}{
     _attributeName = attributeName;
     _attributeStringValue =  attributeValue;
-    cout<<"constructing this string value"<<_attributeStringValue<<endl;
+    // cout<<"constructing this string value"<<_attributeStringValue<<endl;
 }
 
 Pair::Pair(string attributeName, double attributeValueInt): _attributeNumberValue{0},
@@ -40,18 +41,25 @@ string Pair::attributeName(){
 }
 
 void Pair::print(int numOfSpace, bool addComa){
-    cout<<attributeName()<<":";
+    cout<<setw(numOfSpace)<<"\""<<attributeName()<<"\""<<":";
     // if(isDouble()){
         // if(numberValue() == 0){
           if(!_isNumber){
-            cout<<_attributeStringValue;
+            cout<<"\""<<_attributeStringValue<<"\"";
               
           }
           else{ 
               cout<<_attributeNumberValue;
           }
+
+          if(addComa){
+              cout<<","<<endl;
+          }
         // }
-        cout<<endl;
+          else{
+              cout<<endl;
+          }
+        
     // }
     // else{
     //     cout<<"\""<<stringValue()<<"\"";
