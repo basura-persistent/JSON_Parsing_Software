@@ -5,12 +5,12 @@
 #include "iostream"
 #include <string>
 #include <vector>
-#include "Pair.hpp";
+#include "Pair.hpp"
 
 class EntityInstance {
     public:
         void addPair(Pair &pair);
-        int numArrtributes();
+        int numAttributes();
         vector<string> attributeNames;
 
         void print();

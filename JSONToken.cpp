@@ -9,7 +9,8 @@ JSONToken::JSONToken(): _isOpenBrace{false},
                         _isOpenBracket{false},
                         _isCloseBracket{false},
                         _isKey{false},
-                        _isValue{false},
+                        _isDigitValue{false},
+                        _isStringValue{false},
                         _isComa(false),
                         _endOfFile{false}{}
 
@@ -25,11 +26,11 @@ bool &JSONToken::isColon(){return _isColon;}
 bool &JSONToken::isComa(){return _isComa;}
 
 string JSONToken::getKey(){return _key;}
-string JSONToken::getValue(){return _value;}
+string JSONToken::getStringValue(){return _StringValue;}
 
 bool &JSONToken::isKey(){return _isKey;}
-bool &JSONToken::isValue(){return _isValue;}
-
+bool &JSONToken::isStringValue(){return _isStringValue;}
+bool &JSONToken::isDigitValue(){return _isDigitValue;}
 void JSONToken::makeKey(string key){
     _key = key;
 }
@@ -64,7 +65,7 @@ void JSONToken::print(){
         cout<<_key<<endl;
 
     }
-    else if(isValue()){
+    else if(isDigitValue() || isStringValue()){
         cout<<":"<<endl;
         cout<<_value<<endl;
     }
