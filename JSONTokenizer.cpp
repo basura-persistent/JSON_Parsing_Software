@@ -12,6 +12,15 @@ JSONTokenizer::JSONTokenizer( string name):
                                             inputstream.open(inputFileName, ios::in);
 }
 
+JSONToken JSONTokenizer::streamPeek(){
+    JSONToken comaToken;
+    if(char(inputstream.peek()) == ']'){
+        comaToken.isCloseBrace()= true;
+        return comaToken;
+    }
+    return comaToken;
+}
+
 bool JSONTokenizer::charOfInterest(char c){
     if(c=='['||c==']'|| c=='{' || c=='}'||c=='"'||c==','||c==':'){
         // cout<<c<<endl;

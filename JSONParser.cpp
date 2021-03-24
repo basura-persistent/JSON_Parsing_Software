@@ -27,6 +27,9 @@ EntityInstance JSONParser::parseJSONObject(){
       // parseJSONObject is responsible for parsing a JSON object. As such,
      // the first token is expected to be an open brace.
      _token = _tokenizer.getToken();
+     if(_token.isComa()){
+         _token = _tokenizer.getToken();
+     }
      if(!_token.isOpenBracket()){//this should be brackets 
          cout << "Error: JSONPARSER::parseJSONObject: Expected open brace, but found" << endl;
          _token.print();

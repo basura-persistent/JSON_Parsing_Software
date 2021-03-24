@@ -4,6 +4,7 @@
 #include "Pair.cpp"
 #include "JSONParser.cpp"
 #include "EntityInstance.cpp"
+#include "EntitySet.cpp"
 
 int main(int argc, char *argv[]){
     ifstream inputStream;
@@ -20,9 +21,25 @@ int main(int argc, char *argv[]){
     //         jsonPARSER.TokenPrint();
     //         // break;
     //     }
-        jsonPARSER.ValidateOpenBrace();
-        EntityInstance instance = jsonPARSER.parseJSONObject();
-        instance.print();
+        if(!jsonPARSER.ValidateOpenBrace()){
+            cout<<"Invalid JSON file. No Open brace found. ";
+            exit(2);
+        }
+
+        EntitySet entitySet;
+        while(!jsonPARSER.ValidateEndOfFile()){
+            cout<<"Looping"<<endl;
+            EntityInstance instance = jsonPARSER.parseJSONObject();
+            
+
+            // instance.print();
+            entitySet.addEntity(instance);
+            if(jsonPARSER.ValidateCloseBrace()){
+                break;
+            }
+        }
+
+        entitySet.print();
     // string str = "123.4567";
     // double num_double = std::stod(str);
     // cout<<num_double;

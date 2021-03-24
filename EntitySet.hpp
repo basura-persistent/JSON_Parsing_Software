@@ -6,7 +6,7 @@
 #include "EntityInstance.hpp"
 class EntitySet{
     public:
-        EntitySet();
+        // EntitySet();
 
         void addEntity(EntityInstance &);
         void print();

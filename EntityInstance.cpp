@@ -21,7 +21,7 @@ void EntityInstance::print(){
         addComa.pop();
 
     }
-    cout<<setw(5)<<"}"<<endl;
+    cout<<setw(5)<<"}";
 
 
 }
