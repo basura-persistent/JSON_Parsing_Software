@@ -15,31 +15,8 @@ int main(int argc, char *argv[]){
     }
     inputStream.close();
     JSONParser jsonPARSER(argv[1]);
-    // // while(!jsonPARSER.ValidateEndOfFile()){
-    //     if(!jsonPARSER.ValidateOpenBrace()){
-    //         cout<<"Expected Open Brace but instead found";
-    //         jsonPARSER.TokenPrint();
-    //         // break;
-    //     }
-        if(!jsonPARSER.ValidateOpenBrace()){
-            cout<<"Invalid JSON file. No Open brace found. ";
-            exit(2);
-        }
-
-        EntitySet entitySet;
-        while(!jsonPARSER.ValidateEndOfFile()){
-            cout<<"Looping"<<endl;
-            EntityInstance instance = jsonPARSER.parseJSONObject();
-            
-
-            // instance.print();
-            entitySet.addEntity(instance);
-            if(jsonPARSER.ValidateCloseBrace()){
-                break;
-            }
-        }
-
-        entitySet.print();
+    EntitySet entitySet = jsonPARSER.parseJSONObject();
+    entitySet.print();
     // string str = "123.4567";
     // double num_double = std::stod(str);
     // cout<<num_double;

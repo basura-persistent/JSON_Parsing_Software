@@ -18,41 +18,65 @@ bool JSONParser::ValidateOpenBrace(){
 }
 
 bool JSONParser::ValidateCloseBrace(){
-    _token = _tokenizer.getToken();
     return _token.isCloseBrace();
 }
 
 
-EntityInstance JSONParser::parseJSONObject(){
+EntitySet JSONParser::parseJSONObject(){
       // parseJSONObject is responsible for parsing a JSON object. As such,
      // the first token is expected to be an open brace.
-     _token = _tokenizer.getToken();
-     if(_token.isComa()){
-         _token = _tokenizer.getToken();
-     }
-     if(!_token.isOpenBracket()){//this should be brackets 
+     if(!ValidateOpenBrace()){
          cout << "Error: JSONPARSER::parseJSONObject: Expected open brace, but found" << endl;
          _token.print();
          cout<<"Terminating"<<endl;
          exit(1);
      }
-     EntityInstance instance;
-     do {
-        Pair pair = parseAPair();
-         instance.addPair(pair);
-        //  cout<<"pushing back"<<_token.isComa()<<endl;
-        instance.insertComa(_token.isComa());
-         _token = _tokenizer.getToken();
-         //instnace print here 
-     } while(_token.isComa());
-     if( ! _token.isCloseBracket()){//checking close bracket of entity instance 
-         cout << "Error: JSONPARSER::parseJSONObject: Expected close brace, but found" << endl;
-         _token.print();
-         cout<<"Terminating"<<endl;
-         exit(1);
+
+     EntitySet entitySet;
+
+     while(!_tokenizer.streamPeek()){
+            cout<<"looping"<<endl;
+            _token = _tokenizer.getToken();
+            if(_token.isCloseBrace()){
+                break;
+            }
+            if(_token.isComa()){
+                _token = _tokenizer.getToken();
+            }
+            if(!_token.isOpenBracket()){//this should be brackets 
+                cout << "Error: JSONPARSER::parseJSONObject: Expected open braket, but found" << endl;
+                _token.print();
+                cout<<"Terminating"<<endl;
+                exit(1);
+            }
+            EntityInstance instance;
+            do {
+                Pair pair = parseAPair();
+                instance.addPair(pair);
+                //  cout<<"pushing back"<<_token.isComa()<<endl;
+                instance.insertComa(_token.isComa());
+                _token = _tokenizer.getToken();
+                //instnace print here 
+            } while(_token.isComa());
+            if( ! _token.isCloseBracket()){//checking close bracket of entity instance 
+                cout << "Error: JSONPARSER::parseJSONObject: Expected close bracket, but found" << endl;
+                _token.print();
+                cout<<"Terminating"<<endl;
+                exit(1);
+
+            }
+            entitySet.addEntity(instance);
+     }
+
+     if(!ValidateCloseBrace()){
+                cout << "Error: JSONPARSER::parseJSONObject: Expected close bracket, but found" << endl;
+                _token.print();
+                cout<<"Terminating"<<endl;
+                exit(1);
 
      }
-     return instance;
+
+     return entitySet;
 }
 
 Pair JSONParser::parseAPair(){

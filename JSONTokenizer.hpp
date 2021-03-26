@@ -12,7 +12,7 @@ class JSONTokenizer {
     public:
         JSONTokenizer(string);
         JSONToken getToken();
-        JSONToken streamPeek();
+        bool streamPeek();
 
 
     private:

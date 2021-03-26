@@ -12,13 +12,11 @@ JSONTokenizer::JSONTokenizer( string name):
                                             inputstream.open(inputFileName, ios::in);
 }
 
-JSONToken JSONTokenizer::streamPeek(){
-    JSONToken comaToken;
-    if(char(inputstream.peek()) == ']'){
-        comaToken.isCloseBrace()= true;
-        return comaToken;
+bool JSONTokenizer::streamPeek(){
+    if(char(inputstream.peek()) == EOF){
+        return true;
     }
-    return comaToken;
+    return false;
 }
 
 bool JSONTokenizer::charOfInterest(char c){

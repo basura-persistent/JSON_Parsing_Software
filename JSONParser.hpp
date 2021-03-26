@@ -5,6 +5,7 @@
 #include "EntityInstance.hpp"
 #include "JSONTokenizer.hpp"
 #include "JSONToken.hpp"
+#include "EntitySet.hpp"
 #include <string>
 
 class JSONParser {
@@ -14,7 +15,7 @@ class JSONParser {
         bool ValidateCloseBrace();
         bool ValidateEndOfFile();
         Pair parseAPair();
-        EntityInstance parseJSONObject();
+        EntitySet parseJSONObject();
         void TokenPrint();
         // Entity parseJSONEntity();
 
