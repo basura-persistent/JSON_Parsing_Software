@@ -1,8 +1,13 @@
 #include "JSONParser.hpp"
 #include "EntitySet.hpp"
-
+#include "EntityInstance.hpp"
 
 JSONParser::JSONParser(string inputFileName): _tokenizer{inputFileName}{}
+
+
+
+
+
 
 void JSONParser::TokenPrint(){
     _token.print();
@@ -22,42 +27,34 @@ bool JSONParser::ValidateCloseBrace(){
 }
 
 
-EntitySet JSONParser::parseJSONObject(){
+EntityInstance JSONParser::parseJSONObject(){
       // parseJSONObject is responsible for parsing a JSON object. As such,
      // the first token is expected to be an open brace.
-     if(!ValidateOpenBrace()){
+     _token = _tokenizer.getToken();
+     if(!_token.isOpenBracket()){
          cout << "Error: JSONPARSER::parseJSONObject: Expected open brace, but found" << endl;
          _token.print();
          cout<<"Terminating"<<endl;
          exit(1);
      }
 
-     EntitySet entitySet;
+     EntityInstance instance;
 
-     while(!_tokenizer.streamPeek()){
-            cout<<"looping"<<endl;
-            _token = _tokenizer.getToken();
-            if(_token.isCloseBrace()){
-                break;
-            }
-            if(_token.isComa()){
-                _token = _tokenizer.getToken();
-            }
-            if(!_token.isOpenBracket()){//this should be brackets 
-                cout << "Error: JSONPARSER::parseJSONObject: Expected open braket, but found" << endl;
-                _token.print();
-                cout<<"Terminating"<<endl;
-                exit(1);
-            }
-            EntityInstance instance;
+     
             do {
                 Pair pair = parseAPair();
                 instance.addPair(pair);
                 //  cout<<"pushing back"<<_token.isComa()<<endl;
-                instance.insertComa(_token.isComa());
                 _token = _tokenizer.getToken();
+                // cout<<"Printing token"<<endl;
+                // _token.print();
+                if(_token.isComa()){
+                    instance.insertComa(_token.isComa());
+                }
+                // pair.print(5, _token.isComa());
                 //instnace print here 
             } while(_token.isComa());
+            instance.insertComa(_token.isComa());
             if( ! _token.isCloseBracket()){//checking close bracket of entity instance 
                 cout << "Error: JSONPARSER::parseJSONObject: Expected close bracket, but found" << endl;
                 _token.print();
@@ -65,18 +62,36 @@ EntitySet JSONParser::parseJSONObject(){
                 exit(1);
 
             }
-            entitySet.addEntity(instance);
-     }
 
-     if(!ValidateCloseBrace()){
-                cout << "Error: JSONPARSER::parseJSONObject: Expected close bracket, but found" << endl;
-                _token.print();
-                cout<<"Terminating"<<endl;
-                exit(1);
+     
 
-     }
+     return instance;
+}
 
-     return entitySet;
+EntitySet JSONParser::parseJSONEntity() {
+    JSONToken _token = _tokenizer.getToken();
+    if(!_token.isOpenBrace()){
+        cout << "Error: JSONPARSER::parseJSONEntity: Expected Open brace, but found" << endl;
+        _token.print();
+        cout<<"Termaintating"<<endl;
+        exit(1);
+    }
+    EntitySet entitySet;
+    while(! _token.isCloseBracket()){
+        EntityInstance instance = parseJSONObject();
+        entitySet.addEntity(instance);
+        _token = _tokenizer.getToken();
+        if(! _token.isComa()){
+            break;
+        }
+    }
+
+    if(! _token.isCloseBrace()) {
+        cout<< "Error JSON::ParseJsonentity expected close brace but found"<<endl;
+        _token.print();
+        exit(1);
+    }
+    return entitySet;
 }
 
 Pair JSONParser::parseAPair(){
@@ -84,34 +99,41 @@ Pair JSONParser::parseAPair(){
     string key;
     string value;
     _token = _tokenizer.getToken();
-    if(! _token.isKey()){
+    if(! _token.isString()){
         cout<< "Error: JSONPARSER::parseAPair: Expected a key but instead found"<<endl;
         _token.print();
         cout<<"Terminating"<<endl;
         exit(1);
     }
-    key = _token.getKey();
+    key = _token.getString();
+    _token = _tokenizer.getToken();
+    if(! _token.isColon()){
+        cout<< "Error: JSONPARSER::parseAPair: Expected a colon but instead found"<<endl;
+        _token.print();
+        cout<<"Terminating"<<endl;
+        exit(1);
+    }
     // cout<<"found a key"<<key<<endl;
     _token = _tokenizer.getToken();
     // cout<<"Value"<<endl;
     // _token.print();
-    if(! _token.isDigitValue() && !_token.isStringValue()){
+    if(! _token.isDigit() && !_token.isString()){
         cout<< "Error: JSONPARSER::parseAPair: Expected a Value but instead found"<<endl;
        _token.print();
         cout<<"Terminating"<<endl;
         exit(1);
     }
-    if(!_token.isDigitValue()){
-        string value = _token.getStringValue();
+    if(!_token.isDigit()){
+        string stringValue = _token.getString();
         // cout<<"this string value"<<value<<endl;
-        Pair pair(key, value);
+        // cout<<"passing this key"<<key<<endl;
+        Pair pair(key, stringValue);
         return pair;
     }
     else{
-        double value = _token.getDigitValue();
+        double doubleValue = _token.getDigit();
         // cout<<"this double value"<<value<<endl;
-        Pair pair(key, value);
-        pair.isDouble() = true;
+        Pair pair(key, doubleValue);
         return pair;
     }
     // value = token.getValue();

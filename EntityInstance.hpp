@@ -15,16 +15,16 @@ class EntityInstance {
         vector<string> attributeNames;
         void insertComa(bool isComa);
         
-
         void print();
 
         double gpa();
+        string ID();
+        string Term();
 
     private:
         vector<Pair> entityPairs;
          queue<bool> addComa;
-
-
+     //add local variable to locally scan pair gpa value 
 
 };
 

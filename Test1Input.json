@@ -1,13 +1,18 @@
 [
     {
-       "gpa": 2.33256,      
-       "term": "2197",
-       "id": "MDcwNTAwMDQxNDUzNTkwMjky"
+      "id" : "MDQwMTc5NTUzNzM0NDk1ODU1",
+      "term" : "2193",
+      "gpa" : 4
     },
     {
-       "gpa": 3.97562,
-       "term": "2197", 
-       "id": "MDMwOTAxMTkwNTIxMzc5NzMx"
+      "gpa" : 4,
+      "id" : "MDAwNzcyNTczMTMxOTIxMjA0",
+      "term" : "2193"
+    },
+    {
+      "gpa" : 4,
+      "id" : "MDAwNzcyNTczMTMxOTIxMjA1",
+      "term" : "2193"
     }
  ]
  

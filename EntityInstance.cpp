@@ -13,6 +13,33 @@ void EntityInstance::insertComa(bool isComa){
     addComa.push(isComa);
 }
 
+double EntityInstance::gpa(){
+    for(auto pairs: entityPairs){
+        if(pairs.isDouble()){
+            return pairs.numberValue();
+        }
+    }
+    return 0.0;
+}
+
+string EntityInstance::Term(){
+    for(auto pairs: entityPairs){
+        if(pairs.attributeName() == "term"){
+            return pairs.stringValue();
+        }
+    }
+    return "";
+}
+
+string EntityInstance::ID(){
+    for(auto pairs: entityPairs){
+        if(pairs.attributeName() == "id"){
+            return pairs.stringValue();
+        }
+    }
+    return "";
+}
+
 void EntityInstance::print(){
     cout<<setw(5)<<"{"<<endl;
     for(auto pairs: entityPairs){
@@ -22,6 +49,4 @@ void EntityInstance::print(){
 
     }
     cout<<setw(5)<<"}";
-
-
 }

@@ -11,6 +11,7 @@ using namespace std;
 class JSONTokenizer {
     public:
         JSONTokenizer(string);
+        JSONTokenizer();
         JSONToken getToken();
         bool streamPeek();
 
@@ -18,9 +19,8 @@ class JSONTokenizer {
     private:
         string inputFileName;
         ifstream inputstream;
-        bool charOfInterest(char c);
-        string KeyParser();
-        JSONToken ValueParser(JSONToken &token);
+        string stringParser();
+        double doubleParser();
         
 };
 

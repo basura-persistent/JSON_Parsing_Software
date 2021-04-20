@@ -16,16 +16,15 @@ class JSONToken {
         bool &isCloseBracket();
 
         void makeKey(string key);
-        void makeValue(string value);
-        void makeValue(double value);
+        void makeString(string newString);
+        void makeDouble(double value);
 
-        string getKey();
-        string getStringValue();
-        double getDigitValue(); 
+        string getString();
+        double getDigit(); 
 
         bool &isKey();
-        bool &isStringValue();
-        bool &isDigitValue();
+        bool &isString();
+        bool &isDigit();
 
         bool &isColon();
         bool &isComa();
@@ -34,10 +33,10 @@ class JSONToken {
         bool &endOfFile();
     
     private:
-        bool _isOpenBrace, _isCloseBrace, _isOpenBracket, _isCloseBracket, _isColon, _isComa, _isKey, _isStringValue, _isDigitValue, _endOfFile;
-        string _key, _stringValue;
+        bool _isOpenBrace, _isCloseBrace, _isOpenBracket, _isCloseBracket, _isColon, _isComa, _isString, _isDigit, _endOfFile;
+        string _string;
 
-        double _digitValue;
+        double _digit;
         
 
 

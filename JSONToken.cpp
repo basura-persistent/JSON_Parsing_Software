@@ -8,10 +8,10 @@ JSONToken::JSONToken(): _isOpenBrace{false},
                         _isCloseBrace{false},
                         _isOpenBracket{false},
                         _isCloseBracket{false},
-                        _isKey{false},
-                        _isDigitValue{false},
-                        _isStringValue{false},
-                        _isComa(false),
+                        _isDigit{false},
+                        _isString{false},
+                        _isComa{false},
+                        _isColon{false},
                         _endOfFile{false}{}
 
 bool &JSONToken::isOpenBrace(){return _isOpenBrace;}
@@ -25,23 +25,19 @@ bool &JSONToken::isCloseBracket(){return _isCloseBracket;}
 bool &JSONToken::isColon(){return _isColon;}
 bool &JSONToken::isComa(){return _isComa;}
 
-string JSONToken::getKey(){return _key;}
-string JSONToken::getStringValue(){return _stringValue;}
-double JSONToken::getDigitValue(){return _digitValue;}
+string JSONToken::getString(){return _string;}
+double JSONToken::getDigit(){return _digit;}
 
-bool &JSONToken::isKey(){return _isKey;}
-bool &JSONToken::isStringValue(){return _isStringValue;}
-bool &JSONToken::isDigitValue(){return _isDigitValue;}
-void JSONToken::makeKey(string key){
-    _key = key;
+bool &JSONToken::isString(){return _isString;}
+bool &JSONToken::isDigit(){return _isDigit;}
+
+
+void JSONToken::makeString(string newString){
+    _string = newString;
 }
 
-void JSONToken::makeValue(string value){
-    _stringValue = value;
-}
-
-void JSONToken::makeValue(double value){
-    _digitValue = value;
+void JSONToken::makeDouble(double newDouble){
+    _digit = newDouble;
 }
 
 void JSONToken::print(){
@@ -66,13 +62,17 @@ void JSONToken::print(){
     else if(isComa()){
         cout<<","<<endl;
     }
-    else if(isKey()){
-        cout<<_key<<endl;
-
-    }
-    else if(isDigitValue() || isStringValue()){
+    else if(isColon()){
         cout<<":"<<endl;
-        // cout<<_value<<endl;
+    }
+    else if(isDigit()){
+        cout<<getDigit()<<endl;
+    }
+    else if(isString()){
+        cout<<getString()<<endl;
+    }
+    else{
+        cout<<"Unkown Token"<<endl;
     }
 }
 
